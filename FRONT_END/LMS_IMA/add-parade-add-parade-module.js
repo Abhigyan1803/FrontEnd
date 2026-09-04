@@ -62,7 +62,7 @@ var AddParadeComponent = /** @class */ (function () {
         this.service = service;
         this.dialog = dialog;
         this._trgBattalion = _trgBattalion;
-        this.pTitle = "Add Pared State of GCs";
+        this.pTitle = "Add Pared State of OCs";
         this.addParadeForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormGroup"]({});
         this.addParadeForm = this.fb.group({
             name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
@@ -74,7 +74,7 @@ var AddParadeComponent = /** @class */ (function () {
         var _this = this;
         if (this.router.url.includes('view-paradestate')) {
             this.id = this.route.snapshot.queryParamMap.get('id');
-            this.pTitle = "View Pared State of GCs";
+            this.pTitle = "View Pared State of OCs";
             this._trgBattalion.getParadeStateById(this.id).subscribe(function (res) {
                 console.log(res);
                 if (res.status == '1') {
@@ -172,7 +172,7 @@ var AddParadeComponent = /** @class */ (function () {
         this.dialog.open(app_Shared_dialog_dialog_component__WEBPACK_IMPORTED_MODULE_9__["DialogComponent"], {
             width: '1300px', height: '650px',
             data: {
-                type: 'document', title: "Pared State of GCs", url: this.docUrl
+                type: 'document', title: "Pared State of OCs", url: this.docUrl
             }
         });
     };
@@ -277,7 +277,7 @@ var AddParadeModule = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"mat-new\">\r\n    <h4 class=\"card-heading\">\r\n        <button mat-icon-button (click)=\"goBack()\">\r\n            <mat-icon>chevron_left</mat-icon>\r\n        </button> TRG Battalion <span class=\"sub-menu1\"> > Parade State of GCs</span> <span class=\"sub-menu1\"> >\r\n            {{pTitle}}</span>\r\n    </h4>\r\n</div>\r\n<mat-card>\r\n    <div class=\"top-br\">\r\n        <form [formGroup]=\"addParadeForm\">\r\n\r\n            <div class=\"row\">\r\n\r\n                <div class=\"form-group col-md-6\">\r\n                   <label for=\"position\">Name<span class=\"required\">*</span></label>\r\n                   <input id=\"name\" type=\"text\" class=\"form-control\" maxlength=\"100\" formControlName=\"name\"\r\n                   placeholder=\"Name\">\r\n                    <span class=\"validation_msg\"\r\n                        *ngIf=\"f.name.errors && f.name.errors.required && isError\">Please Enter Name</span>\r\n                </div>\r\n\r\n\r\n            </div>\r\n          \r\n\r\n            <div class=\"form-group\">\r\n                <label class=\"form-label\">Document</label>\r\n                \r\n                <input type=\"file\" accept=\".doc,.docx,.pdf\" #inputFile id=\"image\" (change)=\"onSelectDoc($event)\">\r\n                <mat-icon class=\"document_icon\" *ngIf=\"docUrl\" (click)=\"openDoc()\">description</mat-icon>            \r\n                <span class=\"note\">Max File Size 5 MB. (Only pdf and doc format)</span>\r\n                <span class=\"validation_msg\" *ngIf=\"!isDoc && isError\" >Document is required</span>  \r\n              </div>\r\n\r\n              <div class=\"row\">\r\n                <div class=\"form-group col-md-6\">       \r\n                <label for=\"status\" class=\"form-label\">Status <span class=\"required\">*</span></label>\r\n                  <select name=\"\" id=\"status\" class=\"form-control\" required formControlName=\"status\" >\r\n                    <option value=\"\" disabled selected hidden >Select</option>\r\n                    <option value=\"1\">Active</option>\r\n                    <option value=\"0\">Inactive</option>\r\n                  </select>\r\n                  <span  class=\"validation_msg\"  *ngIf=\"f.status.touched && f.status.invalid\" >*Please Select Status</span>\r\n                </div>\r\n              </div>\r\n            <button mat-raised-button *ngIf=\"!id\" (click)=\"addParadeState()\">Add Parade State</button>\r\n            <button mat-raised-button *ngIf=\"id\" (click)=\"updateParadeState()\">Update Parade State</button>\r\n\r\n        </form>\r\n    </div>\r\n</mat-card>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"mat-new\">\r\n    <h4 class=\"card-heading\">\r\n        <button mat-icon-button (click)=\"goBack()\">\r\n            <mat-icon>chevron_left</mat-icon>\r\n        </button> TRG Battalion <span class=\"sub-menu1\"> > Parade State of OCs</span> <span class=\"sub-menu1\"> >\r\n            {{pTitle}}</span>\r\n    </h4>\r\n</div>\r\n<mat-card>\r\n    <div class=\"top-br\">\r\n        <form [formGroup]=\"addParadeForm\">\r\n\r\n            <div class=\"row\">\r\n\r\n                <div class=\"form-group col-md-6\">\r\n                   <label for=\"position\">Name<span class=\"required\">*</span></label>\r\n                   <input id=\"name\" type=\"text\" class=\"form-control\" maxlength=\"100\" formControlName=\"name\"\r\n                   placeholder=\"Name\">\r\n                    <span class=\"validation_msg\"\r\n                        *ngIf=\"f.name.errors && f.name.errors.required && isError\">Please Enter Name</span>\r\n                </div>\r\n\r\n\r\n            </div>\r\n          \r\n\r\n            <div class=\"form-group\">\r\n                <label class=\"form-label\">Document</label>\r\n                \r\n                <input type=\"file\" accept=\".doc,.docx,.pdf\" #inputFile id=\"image\" (change)=\"onSelectDoc($event)\">\r\n                <mat-icon class=\"document_icon\" *ngIf=\"docUrl\" (click)=\"openDoc()\">description</mat-icon>            \r\n                <span class=\"note\">Max File Size 5 MB. (Only pdf and doc format)</span>\r\n                <span class=\"validation_msg\" *ngIf=\"!isDoc && isError\" >Document is required</span>  \r\n              </div>\r\n\r\n              <div class=\"row\">\r\n                <div class=\"form-group col-md-6\">       \r\n                <label for=\"status\" class=\"form-label\">Status <span class=\"required\">*</span></label>\r\n                  <select name=\"\" id=\"status\" class=\"form-control\" required formControlName=\"status\" >\r\n                    <option value=\"\" disabled selected hidden >Select</option>\r\n                    <option value=\"1\">Active</option>\r\n                    <option value=\"0\">Inactive</option>\r\n                  </select>\r\n                  <span  class=\"validation_msg\"  *ngIf=\"f.status.touched && f.status.invalid\" >*Please Select Status</span>\r\n                </div>\r\n              </div>\r\n            <button mat-raised-button *ngIf=\"!id\" (click)=\"addParadeState()\">Add Parade State</button>\r\n            <button mat-raised-button *ngIf=\"id\" (click)=\"updateParadeState()\">Update Parade State</button>\r\n\r\n        </form>\r\n    </div>\r\n</mat-card>");
 
 /***/ })
 
