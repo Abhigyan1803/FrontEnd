@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OC Feedback Form - Spring Term 2026</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f2f2f2;
+    margin: 0;
+    padding: 20px;
+    color: #222;
+  }
+  .sheet {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px 40px 50px 40px;
+    border: 1px solid #ccc;
+  }
+  h1 {
+    text-align: center;
+    font-size: 20px;
+    margin: 0 0 4px 0;
+    letter-spacing: 1px;
+  }
+  h2 {
+    text-align: center;
+    font-size: 17px;
+    margin: 0 0 25px 0;
+    font-weight: bold;
+  }
+  .identity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px 24px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #7a0d0d;
+  }
+  .identity-grid label {
+    display: block;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+  .identity-grid input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #999;
+    font-size: 14px;
+  }
+  .identity-grid input[readonly] {
+    background: #eee;
+    color: #444;
+  }
+  .section-title {
+    background: #7a0d0d;
+    color: #fff;
+    padding: 8px 14px;
+    font-weight: bold;
+    font-size: 15px;
+    margin: 30px 0 12px 0;
+  }
+  .q-label {
+    font-weight: bold;
+    margin: 4px 0 14px 0;
+    font-size: 14px;
+  }
+  table.rating {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+  }
+  table.rating th {
+    font-size: 12px;
+    text-align: center;
+    padding: 4px 2px;
+    color: #555;
+  }
+  table.rating td {
+    padding: 8px 4px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+  }
+  table.rating td.param-name {
+    width: 32%;
+  }
+  table.rating td.radio-cell {
+    text-align: center;
+  }
+  .yesno-row {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 18px;
+    font-size: 14px;
+  }
+  .yesno-row .q-text { flex: 1; font-weight: normal; }
+  .yesno-row label { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .suggestion-line {
+    margin-bottom: 10px;
+  }
+  .suggestion-line label {
+    font-weight: bold;
+    margin-right: 8px;
+  }
+  .suggestion-line input {
+    width: 80%;
+    padding: 5px 8px;
+    border: none;
+    border-bottom: 1px solid #666;
+    font-size: 14px;
+  }
+  .confirm-row {
+    margin-top: 30px;
+    padding: 14px;
+    background: #fff8e1;
+    border: 1px solid #e0c060;
+    font-size: 14px;
+  }
+  .submit-btn {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: #7a0d0d;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
+  #statusMsg {
+    text-align: center;
+    font-weight: bold;
+    padding: 14px;
+    margin-top: 16px;
+    border-radius: 4px;
+    display: none;
+  }
+  #statusMsg.ok { background: #e6f4ea; color: #1e6b34; display: block; }
+  #statusMsg.err { background: #fdeaea; color: #8a1f1f; display: block; }
+  #loginWarning {
+    text-align: center;
+    padding: 40px;
+    font-size: 16px;
+  }
+  .required { color: #a00; }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <div id="loginWarning" style="display:none;">
+    You need to be logged in as an Officer Cadet to fill this form.<br><br>
+    Please log in through the main site first, then open Feedback Form again from the menu.
+  </div>
+
+  <div id="formWrapper">
+    <h1>ADM BR, IMA</h1>
+    <h2>OCs FEEDBACK FORM &nbsp;:&nbsp; SPRING TERM 2026</h2>
+
+    <div class="identity-grid">
+      <div><label>Acad No <span class="required">*</span></label><input id="acadNo" required></div>
+      <div><label>Rank <span class="required">*</span></label><input id="rank" value="Officer Cadet" required></div>
+      <div><label>Name</label><input id="name" readonly></div>
+      <div><label>Bn</label><input id="bn" readonly></div>
+      <div><label>Coy</label><input id="coy" readonly></div>
+      <div><label>Cabin No <span class="required">*</span></label><input id="cabinNo" required></div>
+    </div>
+
+    <form id="feedbackForm">
+
+      <div class="section-title">Offrs Cadets Accommodation</div>
+      <div class="q-label">Q1. Please rate the following wrt Offr Cdt Accommodation:-</div>
+      <table class="rating" id="table-accommodation"></table>
+      <div class="yesno-row" id="row-leakage">
+        <div class="q-text">Leakage / Seepage in cabin/washroom</div>
+      </div>
+
+      <div class="section-title">Vikram Batra Mess</div>
+      <div class="q-label">Q2. How do you rate the following wrt VB Mess:-</div>
+      <table class="rating" id="table-mess"></table>
+
+      <div class="section-title">Clothing Issue (Kapoor &amp; Co.)</div>
+      <div class="q-label">Q3. How do you rate the quality and variety of clothing items purchased by you from Kapoor &amp; Co.?</div>
+      <table class="rating" id="table-kapoor"></table>
+
+      <div class="section-title">Clothing Issue (Mec Gear)</div>
+      <div class="q-label">Q4. How do you rate the quality and variety of clothing items purchased by you from Mec Gear?</div>
+      <table class="rating" id="table-mecgear"></table>
+
+      <div class="yesno-row" id="row-ordissue">
+        <div class="q-text"><b>Q5.</b> Were all ord issue items &amp; web eqpt issued in serviceable condition?</div>
+      </div>
+
+      <div class="section-title">Bicycles</div>
+      <div class="q-label">Q6. Bicycles</div>
+      <table class="rating" id="table-bicycles"></table>
+
+      <div class="section-title">Medical Support</div>
+      <div class="q-label">Q7. Medical Support</div>
+      <table class="rating" id="table-medical"></table>
+
+      <div class="section-title">Miscellaneous Issues</div>
+      <div class="q-label">Q9.1 Are the banking facilities avbl in IMA through various ATMs / e-Lobbies sufficient?</div>
+      <div class="yesno-row" id="row-banking" style="gap:20px;"></div>
+
+      <div class="q-label" style="margin-top:20px;">Q9.2 How do you rate the standard of CSD Extn Counter est in South Campus wrt the following:-</div>
+      <table class="rating" id="table-csd"></table>
+
+      <div class="section-title">Suggestions</div>
+      <div class="q-label">Q12. Please give your suggestions for further improvement in administrative aspects of the functioning of the Academy (not more than 30 words):-</div>
+      <div class="suggestion-line"><label>12.1</label><input id="sugg1" maxlength="160"></div>
+      <div class="suggestion-line"><label>12.2</label><input id="sugg2" maxlength="160"></div>
+      <div class="suggestion-line"><label>12.3</label><input id="sugg3" maxlength="160"></div>
+
+      <div class="confirm-row">
+        <label><input type="checkbox" id="confirmBox" required> I confirm the above responses are accurate and given by me. (Digital equivalent of signature)</label>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Submit Feedback</button>
+      <div id="statusMsg"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+const RATING_OPTIONS = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
+
+const ratingTables = [
+  { id: "table-accommodation", groupPrefix: "acc", params: [
+      "Furniture Issued", "Serviceability of electrical gadgets", "Electricity & Hot water supply"
+  ]},
+  { id: "table-mess", groupPrefix: "mess", params: [
+      "Quality of food", "Variety in Menu", "Quantity & Adequacy of food",
+      "Staff Behaviour & Service attitude", "Overall Satisfaction with Mess functioning"
+  ]},
+  { id: "table-kapoor", groupPrefix: "kapoor", params: [
+      "Quality of items", "Reasonable Price", "Stitching/Fitting Quality"
+  ]},
+  { id: "table-mecgear", groupPrefix: "mecgear", params: [
+      "Quality of items", "Reasonable Price", "Overall satisfaction"
+  ]},
+  { id: "table-bicycles", groupPrefix: "bicycle", params: [
+      "Condition on issue", "Maintenance standards"
+  ]},
+  { id: "table-medical", groupPrefix: "medical", params: [
+      "Ease of access during Trg hrs", "Behaviour of Medical staff"
+  ]},
+  { id: "table-csd", groupPrefix: "csd", params: [
+      "Adequacy of stores", "No. of Billing Counter"
+  ]},
+];
+
+function buildRatingTable(tableEl, groupPrefix, params) {
+  let html = "<tr><th style='text-align:left;'>Parameter</th>";
+  RATING_OPTIONS.forEach(o => html += "<th>" + o + "</th>");
+  html += "</tr>";
+  params.forEach((p, i) => {
+    const groupName = groupPrefix + "_" + i;
+    html += "<tr><td class=\"param-name\">" + p + "</td>";
+    RATING_OPTIONS.forEach(o => {
+      html += "<td class=\"radio-cell\"><input type=\"radio\" name=\"" + groupName + "\" value=\"" + o + "\" required></td>";
+    });
+    html += "</tr>";
+  });
+  tableEl.innerHTML = html;
+}
+
+ratingTables.forEach(t => buildRatingTable(document.getElementById(t.id), t.groupPrefix, t.params));
+
+function buildYesNo(containerId, groupName, extraOption) {
+  const el = document.getElementById(containerId);
+  let html = "<label><input type=\"radio\" name=\"" + groupName + "\" value=\"Yes\" required> Yes</label>" +
+              "<label><input type=\"radio\" name=\"" + groupName + "\" value=\"No\"> No</label>";
+  if (extraOption) {
+    html += "<label><input type=\"radio\" name=\"" + groupName + "\" value=\"" + extraOption + "\"> " + extraOption + "</label>";
+  }
+  el.innerHTML = html;
+}
+
+buildYesNo("row-leakage", "leakage");
+buildYesNo("row-ordissue", "ordissue");
+buildYesNo("row-banking", "banking", "More ATMs / e-Lobbies reqd");
+
+// ---- Auto-fill identity from the logged-in cadet's own session ----
+let cadetDetails = null;
+let jwtToken = null;
+try {
+  jwtToken = localStorage.getItem("jwtToken");
+  const loginResponse = JSON.parse(localStorage.getItem("loginResponse"));
+  cadetDetails = loginResponse ? loginResponse.object : null;
+} catch (e) {
+  cadetDetails = null;
+}
+
+if (!jwtToken || !cadetDetails) {
+  document.getElementById("formWrapper").style.display = "none";
+  document.getElementById("loginWarning").style.display = "block";
+} else {
+  document.getElementById("name").value = cadetDetails.name || "";
+  document.getElementById("bn").value = (cadetDetails.battalian && cadetDetails.battalian.shortName) || "";
+  document.getElementById("coy").value = (cadetDetails.company && cadetDetails.company.name) || "";
+}
+
+function getRadioValue(groupName) {
+  const el = document.querySelector("input[name=\"" + groupName + "\"]:checked");
+  return el ? el.value : null;
+}
+
+function collectRatingGroup(groupPrefix, params) {
+  const result = {};
+  params.forEach((p, i) => {
+    result[p] = getRadioValue(groupPrefix + "_" + i);
+  });
+  return result;
+}
+
+document.getElementById("feedbackForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const submitBtn = document.getElementById("submitBtn");
+  const statusMsg = document.getElementById("statusMsg");
+  statusMsg.className = "";
+  statusMsg.style.display = "none";
+
+  const accAnswers = collectRatingGroup("acc", ratingTables[0].params);
+  accAnswers["Leakage/Seepage in cabin/washroom"] = getRadioValue("leakage");
+
+  const miscAnswers = collectRatingGroup("csd", ratingTables[6].params);
+  miscAnswers["bankingFacilitiesSufficient"] = getRadioValue("banking");
+
+  const answers = {
+    formType: "OC Feedback Form",
+    term: "Spring Term 2026",
+    submittedAt: new Date().toISOString(),
+    identity: {
+      acadNo: document.getElementById("acadNo").value,
+      rank: document.getElementById("rank").value,
+      name: document.getElementById("name").value,
+      bn: document.getElementById("bn").value,
+      coy: document.getElementById("coy").value,
+      cabinNo: document.getElementById("cabinNo").value,
+    },
+    accommodation: accAnswers,
+    vbMess: collectRatingGroup("mess", ratingTables[1].params),
+    clothingKapoor: collectRatingGroup("kapoor", ratingTables[2].params),
+    clothingMecGear: collectRatingGroup("mecgear", ratingTables[3].params),
+    ordIssueServiceable: getRadioValue("ordissue"),
+    bicycles: collectRatingGroup("bicycle", ratingTables[4].params),
+    medicalSupport: collectRatingGroup("medical", ratingTables[5].params),
+    misc: miscAnswers,
+    suggestions: [
+      document.getElementById("sugg1").value,
+      document.getElementById("sugg2").value,
+      document.getElementById("sugg3").value,
+    ].filter(function(s) { return s.trim() !== ""; }),
+  };
+
+  // Build a human-readable text version too (this becomes the attached document)
+  let textDump = "OC FEEDBACK FORM - SPRING TERM 2026\nSubmitted: " + answers.submittedAt + "\n\n";
+  textDump += "Acad No: " + answers.identity.acadNo + "\nRank: " + answers.identity.rank + "\nName: " + answers.identity.name + "\nBn: " + answers.identity.bn + "\nCoy: " + answers.identity.coy + "\nCabin No: " + answers.identity.cabinNo + "\n\n";
+  function dumpSection(title, obj) {
+    textDump += "--- " + title + " ---\n";
+    Object.keys(obj).forEach(function(k) { textDump += k + ": " + obj[k] + "\n"; });
+    textDump += "\n";
+  }
+  dumpSection("Accommodation", answers.accommodation);
+  dumpSection("Vikram Batra Mess", answers.vbMess);
+  dumpSection("Clothing - Kapoor & Co.", answers.clothingKapoor);
+  dumpSection("Clothing - Mec Gear", answers.clothingMecGear);
+  textDump += "Ord issue items & web eqpt serviceable: " + answers.ordIssueServiceable + "\n\n";
+  dumpSection("Bicycles", answers.bicycles);
+  dumpSection("Medical Support", answers.medicalSupport);
+  dumpSection("Miscellaneous / Banking / CSD", answers.misc);
+  textDump += "--- Suggestions ---\n" + answers.suggestions.map(function(s,i) { return (i+1) + ". " + s; }).join("\n") + "\n";
+
+  const docBlob = new Blob([textDump], { type: "text/plain" });
+  const docFile = new File([docBlob], "OC_Feedback_" + (answers.identity.acadNo || "unknown") + "_" + Date.now() + ".txt", { type: "text/plain" });
+
+  const formData = new FormData();
+  formData.append("title", "OC Feedback Form - Spring Term 2026");
+  formData.append("name", answers.identity.name || answers.identity.acadNo || "OC");
+  formData.append("address", answers.identity.bn + " Bn, " + answers.identity.coy + " Coy");
+  formData.append("department", answers.identity.coy || "IMA");
+  formData.append("requestType", "Feedback");
+  formData.append("requestNature", "OC Feedback Form - Spring Term 2026");
+  formData.append("details", JSON.stringify(answers));
+  formData.append("requestStatus", "Pending");
+  formData.append("remarks", "");
+  formData.append("status", "1");
+  formData.append("docFile", docFile);
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting...";
+
+  fetch("http://10.10.50.10:8080/ImaLms/api/requirements-complaints/add", {
+    method: "POST",
+    headers: { "Authorization": "Bearer " + jwtToken },
+    body: formData
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(res) {
+    if (res && res.status === "OK") {
+      statusMsg.className = "ok";
+      statusMsg.textContent = "Thank you - your feedback has been submitted successfully.";
+      statusMsg.style.display = "block";
+      document.getElementById("feedbackForm").reset();
+      submitBtn.style.display = "none";
+    } else {
+      throw new Error((res && res.message) || "Submission was not accepted by the server.");
+    }
+  })
+  .catch(function(err) {
+    statusMsg.className = "err";
+    statusMsg.textContent = "Something went wrong submitting your feedback: " + err.message + ". Please try again or contact IT Cell.";
+    statusMsg.style.display = "block";
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Feedback";
+  });
+});
+</script>
+
+</body>
+</html>
